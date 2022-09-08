@@ -1,0 +1,8 @@
+https://www.webofscience.com/wos/woscc/summary/9229fdc8-6c21-479b-adc7-fe75585ab1d2-2a00f839/relevance/1
+
+
+(TS=(archaeolog*) AND ALL=("cultur* evolutio*")) OR (TS=(archaeolog*) AND TS=("cultur* transmissio*")) OR (TS=(anthropology) AND ALL=("cultur* evolutio*")) OR (TS=(anthropology) AND ALL=("cultur* transmissio*"))
+
+1900-01-01 to 2021-12-31
+
+677 results
