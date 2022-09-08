@@ -65,7 +65,7 @@ publications_per_year_bar_plot <-
 publications_per_year_bar_plot
 
 ggsave(publications_per_year_bar_plot,
-       filename = file.path("3_output", "number_of_pubs_per_year_plot.png"),
+       filename = file.path("3_output", "Fig_2_number_of_pubs_per_year_plot.png"),
        device = "png",
        width = 8,
        height = 6,
@@ -152,7 +152,7 @@ ggplot(aes(x = PY,
 period_keyword_occ_per_year_plot
 
 ggsave(period_keyword_occ_per_year_plot,
-       filename = file.path("3_output", "period_keyword_occ_per_year.png"),
+       filename = file.path("3_output", "Fig_3_period_keyword_occ_per_year.png"),
        device = "png",
        width = 6,
        height = 6,
@@ -213,7 +213,7 @@ METHODS_plot <-
 METHODS_plot
 
 ggsave(METHODS_plot,
-       filename = file.path("3_output", "METHODS_keyword_occ_per_year.png"),
+       filename = file.path("3_output", "Fig_4_METHODS_keyword_occ_per_year.png"),
        device = "png",
        width = 12,
        height = 6,
@@ -284,10 +284,71 @@ mutate(TOPIC_factor = forcats::fct_reorder(TOPIC, summed_perc)) %>%
 TOPIC_plot
 
 ggsave(TOPIC_plot,
-       filename = file.path("3_output", "TOPIC_keyword_occ_per_year.png"),
+       filename = file.path("3_output", "Fig_5_TOPIC_keyword_occ_per_year.png"),
        device = "png",
        width = 10,
        height = 12,
+       units = "in",
+       bg = "white")
+
+
+####
+
+CET_data <- 
+  blubb[,c(which(colnames(blubb) %in% subset(meta_meta_categories, meta_category == "CET")$category), which(colnames(blubb) == "mybibtex_key"))] %>% 
+  tidyr::pivot_longer(-mybibtex_key, names_to = "CET") %>% 
+  na_if(0) %>% 
+  na.omit %>% 
+  dplyr::left_join(., WoS_bib_included[,which(colnames(WoS_bib_included) %in% c("mybibtex_key", "PY"))]) %>% 
+  subset(PY > 1999) %>% 
+  subset(PY < 2022) %>% 
+  group_by(PY) %>%
+  count(CET) %>% 
+  ungroup() %>% 
+  dplyr::left_join(., number_of_pubs_per_year_df,
+                   by = c("PY"= "Year")) %>% 
+  mutate(perc = n/Count) %>% 
+  mutate(CET = gsub("Cultural_Evolution", "Cultural evolution", CET)) %>% 
+  mutate(CET = gsub("Niche_Construction", "Niche construction", CET)) %>% 
+  mutate(CET = gsub("Cultural_Transmission", "Cultural transmission CET", CET)) %>% 
+  mutate(CET = gsub("Social_learning", "Social learning", CET)) %>% 
+  mutate(CET = gsub("Gene_Culture_CoEvol", "Gene-culture coevolution", CET)) %>% 
+  mutate(CET = gsub("Evolutionary_Psychology", "Evolutionary psychology", CET)) %>% 
+  mutate(CET = gsub("Behav_Ecology", "Behavioral ecology", CET))
+
+CET_relevance <- 
+  CET_data %>% 
+  group_by(CET) %>%
+  summarise(summed_perc = sum(perc)) %>% 
+  ungroup() %>% 
+  arrange(desc(summed_perc))  
+
+CET_data_relevance <- 
+  dplyr::left_join(CET_data,
+                   CET_relevance)
+
+CET_plot <- 
+  CET_data_relevance %>% 
+  ggplot(aes(x = PY, y = perc*100)) +
+  geom_smooth(span = 0.5) +
+  geom_point() +
+  # geom_segment(aes(x = PY, xend = PY, y = 0, yend = perc*100)) +
+  # geom_line() +
+  facet_wrap(~forcats::fct_reorder(CET, desc(summed_perc), max), ncol = 5) +
+  theme_bw() +
+  # geom_col(aes(fill = CET), color = "black", position = "fill") 
+  theme(legend.position = "none") +
+  xlab("Year of publication") +
+  ylab("Relative occurrence of each keyword per year (%)")
+
+
+CET_plot
+
+ggsave(CET_plot,
+       filename = file.path("3_output", "SI_Fig_1_CET_keyword_occ_per_year.png"),
+       device = "png",
+       width = 12,
+       height = 6,
        units = "in",
        bg = "white")
 

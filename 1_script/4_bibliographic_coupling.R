@@ -98,7 +98,7 @@ ggraph(delete_vertices(article_references_network,
 article_references_network_louvain
 
 ggsave(article_references_network_louvain,
-       filename = file.path("3_output", "bibliographic_coupling_network_graphopt_plot_noLabels.png"),
+       filename = file.path("3_output", "Fig_6_bibliographic_coupling_network_graphopt_plot_noLabels.png"),
        device = "png",
        width = 8,
        height = 8,
@@ -132,7 +132,7 @@ article_references_network_louvain_dots_lines_warp_color <-
 article_references_network_louvain_dots_lines_warp_color
 
 ggsave(article_references_network_louvain_dots_lines_warp_color,
-       filename = file.path("3_output", "bibliographic_coupling_network_graphopt_plot_linesDotsWrap.png"),
+       filename = file.path("3_output", "SI_Fig_2_bibliographic_coupling_network_graphopt_plot_linesDotsWrap.png"),
        device = "png",
        width = 8,
        height = 8,
@@ -248,7 +248,7 @@ ggplot() +
 network_centralities_plots
 
 ggsave(network_centralities_plots,
-       filename = file.path("3_output", "bibliographic_coupling_network_closenessCentrality_plot.png"),
+       filename = file.path("3_output", "Fig_7_bibliographic_coupling_network_closenessCentrality_plot.png"),
        device = "png",
        width = 7,
        height = 7,
@@ -261,32 +261,33 @@ ggsave(network_centralities_plots,
 ##############################################################################################################
 
 graph_1 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==1))
-igraph::edge_density(graph_1)
-
 graph_2 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==2))
-igraph::edge_density(graph_2)
-
 graph_3 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==3))
-igraph::edge_density(graph_3)
-
 graph_4 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==4))
-igraph::edge_density(graph_4)
-
 graph_5 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==5))
-igraph::edge_density(graph_5)
-
 graph_6 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==6))
-igraph::edge_density(graph_6)
-
 graph_7 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==7))
-igraph::edge_density(graph_7)
-
 graph_8 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==8))
-igraph::edge_density(graph_8)
-
 graph_9 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==9))
-igraph::edge_density(graph_9)
+graph_10 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==10))
+graph_11 <- subgraph(graph=article_references_network, v=which(V(article_references_network)$color==11))
 
+article_references_network_cluster_densities <- 
+  data.frame(cluster = c(1:11),
+             edge_density = c(round(igraph::edge_density(graph_1), digits = 3),
+                              round(igraph::edge_density(graph_2), digits = 3),
+                              round(igraph::edge_density(graph_3), digits = 3),
+                              round(igraph::edge_density(graph_4), digits = 3),
+                              round(igraph::edge_density(graph_5), digits = 3),
+                              round(igraph::edge_density(graph_6), digits = 3),
+                              round(igraph::edge_density(graph_7), digits = 3),
+                              round(igraph::edge_density(graph_8), digits = 3),
+                              round(igraph::edge_density(graph_9), digits = 3),
+                              round(igraph::edge_density(graph_10), digits = 3),
+                              round(igraph::edge_density(graph_11), digits = 3)))
+
+readr::write_csv(article_references_network_cluster_densities,
+                 file = file.path("3_output", "bibliographic_coupling_network_clusters_w_densities.csv"))
 
 ##############################################################################################################
 # Chi-Squared Test
@@ -568,14 +569,14 @@ article_references_network_node_df_articles_per_timeframe_plot <-
 article_references_network_node_df_articles_per_timeframe_plot
 
 ggsave(article_references_network_node_df_articles_per_timeframe_plot,
-       filename = file.path("3_output", "article_references_network_node_df_articles_per_timeframe_plot.png"),
+       filename = file.path("3_output", "SI_Fig_3_article_references_network_node_df_articles_per_timeframe_plot.png"),
        device = "png",
        width = 8,
        height = 10,
        units = "in",
        bg = "white")
 
-
+############
 number_of_articles_per_cluster_per_timeframe_plot <- 
   article_references_network_node_df_articles_per_timeframe %>% 
   group_by(color, timeframe) %>% 
@@ -684,7 +685,7 @@ density_over_time_plot <-
 density_over_time_plot
 
 ggsave(density_over_time_plot,
-       filename = file.path("3_output", "density_over_time_plot.png"),
+       filename = file.path("3_output", "Fig_8_density_over_time_plot.png"),
        device = "png",
        width = 6,
        height = 5,
@@ -694,12 +695,50 @@ ggsave(density_over_time_plot,
 
 
 
+# density_over_time_per_cluster_plot + number_of_articles_per_cluster_per_timeframe_plot
+pubs_per_cluster_per_timebin_plus_density <-
+  dplyr::left_join(
+    article_references_network_node_df_articles_per_timeframe %>% 
+      group_by(color, timeframe) %>% 
+      tally() %>% 
+      na.omit() %>% 
+      subset(!(color %in% c(10,11))) %>% 
+      mutate(cluster = paste("Cluster", color)),
+    
+    do.call(rbind.data.frame, current_graph_df_list_list) %>% 
+      mutate(cluster = paste("Cluster", cluster))
+  )
 
+pubs_per_cluster_per_timebin_plus_density_plot <- 
+pubs_per_cluster_per_timebin_plus_density %>% 
+  ggplot() +
+  geom_col(aes(x = timeframe, 
+               y = n, 
+               fill = factor(cluster),
+               group = factor(cluster)),
+           size = 2) +
+  geom_line(aes(x = timeframe, y = cluster_density*100, 
+                group = factor(cluster)),
+            color = "black") +
+  geom_point(aes(x = timeframe, y = cluster_density*100, 
+                 group = factor(cluster)),
+             size = 2) +
+  scale_y_continuous("Number of publications", sec.axis = sec_axis(~./100, name = "Density")) +
+  facet_wrap(~cluster) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  xlab("Time bins") +
+  ylab("Number of publications")
 
+pubs_per_cluster_per_timebin_plus_density_plot
 
-
-
-
+ggsave(pubs_per_cluster_per_timebin_plus_density_plot,
+       filename = file.path("3_output", "Fig_9_pubs_per_cluster_per_timebin_plus_density_plot.png"),
+       device = "png",
+       width = 15,
+       height = 8,
+       units = "in",
+       bg = "white")
 
 
 
