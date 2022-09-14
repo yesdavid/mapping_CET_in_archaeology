@@ -35,4 +35,4 @@ base (>= 4.2.1), bib2df (>= 1.1.1), bibliometrix (>= 3.2.1), corrplot (>= 0.92),
 
 Code: MIT <http://opensource.org/licenses/MIT> year: 2022, copyright holder: David Nicolas Matzig
 
-Data: The data has been compiled from Clarivate's Web of Science.
+Data: The data has been compiled from Clarivate's Web of Science Core Collection (WoS; www.webofscience.com)
