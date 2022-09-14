@@ -98,7 +98,7 @@ ggraph(delete_vertices(article_references_network,
 article_references_network_louvain
 
 ggsave(article_references_network_louvain,
-       filename = file.path("3_output", "Fig_6_bibliographic_coupling_network_graphopt_plot_noLabels.png"),
+       filename = file.path("3_output", "Fig_5_bibliographic_coupling_network_graphopt_plot_noLabels.png"),
        device = "png",
        width = 8,
        height = 8,
@@ -132,7 +132,7 @@ article_references_network_louvain_dots_lines_warp_color <-
 article_references_network_louvain_dots_lines_warp_color
 
 ggsave(article_references_network_louvain_dots_lines_warp_color,
-       filename = file.path("3_output", "SI_Fig_2_bibliographic_coupling_network_graphopt_plot_linesDotsWrap.png"),
+       filename = file.path("3_output", "Supplementary_Fig_S4_bibliographic_coupling_network_graphopt_plot_linesDotsWrap.png"),
        device = "png",
        width = 8,
        height = 8,
@@ -248,7 +248,7 @@ ggplot() +
 network_centralities_plots
 
 ggsave(network_centralities_plots,
-       filename = file.path("3_output", "Fig_7_bibliographic_coupling_network_closenessCentrality_plot.png"),
+       filename = file.path("3_output", "Supplementary_Fig_S1_bibliographic_coupling_network_closenessCentrality_plot.png"),
        device = "png",
        width = 7,
        height = 7,
@@ -367,42 +367,6 @@ dummy_df
 readr::write_csv(dummy_df,
                  file = file.path("3_output", "chiSq_residuals_keywords_clusters.csv"))
 
-
-# library(corrplot)
-# png(file.path("3_output", "keyword_cluster_chisq_geogrLoc.png"),
-#     width =8,height = 8,units = "in", bg = "white", res = 72)
-# corrplot(chisq_test_res$stdres[which(rownames(chisq_test_res$stdres) %in% subset(meta_meta_categories, meta_category == "GEOGR_LOCATION")$category),], is.cor = FALSE,method = "square")
-# dev.off()
-# 
-# png(file.path("3_output", "keyword_cluster_chisq_geogrLocFine.png"),
-#     width =8,height = 8,units = "in", bg = "white", res = 72)
-# corrplot(chisq_test_res$stdres[which(rownames(chisq_test_res$stdres) %in% subset(meta_meta_categories, meta_category == "GEOGR_LOCATION_FINE")$category),], is.cor = FALSE,method = "square")
-# dev.off()
-# 
-# png(file.path("3_output", "keyword_cluster_chisq_MaterialCult.png"),
-#     width =8,height = 8,units = "in", bg = "white", res = 72)
-# corrplot(chisq_test_res$stdres[which(rownames(chisq_test_res$stdres) %in% subset(meta_meta_categories, meta_category == "MATERIAL_CULTURE")$category),], is.cor = FALSE,method = "square")
-# dev.off()
-# 
-# png(file.path("3_output", "keyword_cluster_chisq_CET.png"),
-#     width =8,height = 8,units = "in", bg = "white", res = 72)
-# corrplot(chisq_test_res$stdres[which(rownames(chisq_test_res$stdres) %in% subset(meta_meta_categories, meta_category == "CET")$category),], is.cor = FALSE,method = "square")
-# dev.off()
-# 
-# png(file.path("3_output", "keyword_cluster_chisq_periods.png"),
-#     width =8,height = 8,units = "in", bg = "white", res = 72)
-# corrplot(chisq_test_res$stdres[which(rownames(chisq_test_res$stdres) %in% subset(meta_meta_categories, meta_category == "PERIOD")$category),], is.cor = FALSE,method = "square")
-# dev.off()
-# 
-# png(file.path("3_output", "keyword_cluster_chisq_methods.png"),
-#     width =8,height = 8,units = "in", bg = "white", res = 72)
-# corrplot(chisq_test_res$stdres[which(rownames(chisq_test_res$stdres) %in% subset(meta_meta_categories, meta_category == "METHODS")$category),], is.cor = FALSE,method = "square")
-# dev.off()
-# 
-# png(file.path("3_output", "keyword_cluster_chisq_Topic.png"),
-#     width =8,height = 16,units = "in", bg = "white", res = 72)
-# corrplot(chisq_test_res$stdres[which(rownames(chisq_test_res$stdres) %in% subset(meta_meta_categories, meta_category == "TOPIC")$category),], is.cor = FALSE,method = "square")
-# dev.off()
 
 # Contribution in percentage (%)
 contrib <- 100*chisq_test_res$residuals^2/chisq_test_res$statistic
@@ -569,7 +533,7 @@ article_references_network_node_df_articles_per_timeframe_plot <-
 article_references_network_node_df_articles_per_timeframe_plot
 
 ggsave(article_references_network_node_df_articles_per_timeframe_plot,
-       filename = file.path("3_output", "SI_Fig_3_article_references_network_node_df_articles_per_timeframe_plot.png"),
+       filename = file.path("3_output", "Supplementary_Fig_S5_article_references_network_node_df_articles_per_timeframe_plot.png"),
        device = "png",
        width = 8,
        height = 10,
@@ -674,8 +638,12 @@ ggsave(density_over_time_per_cluster_plot,
        bg = "white")
 
 
+
+density_over_time_data <- 
+do.call(rbind.data.frame, overall_density_list)
+
 density_over_time_plot <- 
-  do.call(rbind.data.frame, overall_density_list) %>% 
+  density_over_time_data %>% 
   ggplot(aes(x = timeframe, y = density)) +
   # geom_line() +
   geom_point(size = 5) +
@@ -685,14 +653,15 @@ density_over_time_plot <-
 density_over_time_plot
 
 ggsave(density_over_time_plot,
-       filename = file.path("3_output", "Fig_8_density_over_time_plot.png"),
+       filename = file.path("3_output", "Supplementary_Fig_S6_density_over_time_plot.png"),
        device = "png",
        width = 6,
        height = 5,
        units = "in",
        bg = "white")
 
-
+density_over_time_data$density <- round(density_over_time_data$density, digits = 3)
+density_over_time_data
 
 
 # density_over_time_per_cluster_plot + number_of_articles_per_cluster_per_timeframe_plot
@@ -733,7 +702,7 @@ pubs_per_cluster_per_timebin_plus_density %>%
 pubs_per_cluster_per_timebin_plus_density_plot
 
 ggsave(pubs_per_cluster_per_timebin_plus_density_plot,
-       filename = file.path("3_output", "Fig_9_pubs_per_cluster_per_timebin_plus_density_plot.png"),
+       filename = file.path("3_output", "Fig_6_pubs_per_cluster_per_timebin_plus_density_plot.png"),
        device = "png",
        width = 15,
        height = 8,

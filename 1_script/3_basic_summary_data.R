@@ -122,12 +122,11 @@ Period$Period <- gsub("African_Stone_Age", "African Stone Age", Period$Period)
 Period$Period <- gsub("Iron_age", "Iron Age", Period$Period)
 Period$Period <- gsub("none", "Not specified", Period$Period)
 
-Period$Period <- factor(Period$Period,
-                           levels = c("Not specified", "African Stone Age", "Palaeolithic", "Palaeoindian","Mesolithic",
-                                      "Neolithic", "Bronze Age", "Iron Age"))
-
-period_keyword_occ_per_year_plot <- 
-Period %>% 
+# Period$Period <- factor(Period$Period,
+#                            levels = c("Not specified", "African Stone Age", "Palaeolithic", "Palaeoindian","Mesolithic",
+#                                       "Neolithic", "Bronze Age", "Iron Age"))
+period_keyword_occ_per_year_data <-
+  Period %>% 
   subset(PY < 2022) %>% 
   group_by(PY) %>%
   count(Period) %>% 
@@ -135,8 +134,18 @@ Period %>%
   dplyr::left_join(., number_of_pubs_per_year_df,
                    by = c("PY"= "Year")) %>% 
   mutate(perc = n/Count) %>% 
-  mutate(label = if_else(PY == max(PY), as.character(Period), NA_character_)) %>%
-ggplot(aes(x = PY,
+  mutate(label = if_else(PY == max(PY), as.character(Period), NA_character_))
+
+period_keyword_occ_per_year_data$Period <- factor(period_keyword_occ_per_year_data$Period,
+                                                  levels = levels(forcats::fct_reorder(as.data.frame(table(Period$Period))$Var1,
+                                                                                       as.data.frame(table(Period$Period))$Freq,
+                                                                                       .desc = T)))
+
+
+
+period_keyword_occ_per_year_plot <- 
+ggplot(data = period_keyword_occ_per_year_data,
+       aes(x = PY,
            y = n,
            group = Period,
            color = Period
@@ -147,7 +156,15 @@ ggplot(aes(x = PY,
   xlab("Year of publication") +
   ylab("Number of articles containing keyword") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_color_manual(values = c("Not specified" = "grey60",
+                                "Palaeolithic" = "#191970",
+                                "Neolithic" = "#ff0000",          
+                                "Bronze Age" = "#ffd700",  
+                                "Mesolithic" = "#00ffff",  
+                                "African Stone Age" = "#ff00ff",      
+                                "Iron Age" = "#4169e1",
+                                "Palaeoindian" = "#00ff00")) 
 
 period_keyword_occ_per_year_plot
 
@@ -284,7 +301,7 @@ mutate(TOPIC_factor = forcats::fct_reorder(TOPIC, summed_perc)) %>%
 TOPIC_plot
 
 ggsave(TOPIC_plot,
-       filename = file.path("3_output", "Fig_5_TOPIC_keyword_occ_per_year.png"),
+       filename = file.path("3_output", "Supplementary_Fig_S3_TOPIC_keyword_occ_per_year.png"),
        device = "png",
        width = 10,
        height = 12,
@@ -345,7 +362,7 @@ CET_plot <-
 CET_plot
 
 ggsave(CET_plot,
-       filename = file.path("3_output", "SI_Fig_1_CET_keyword_occ_per_year.png"),
+       filename = file.path("3_output", "Supplementary_Fig_S2_CET_keyword_occ_per_year.png"),
        device = "png",
        width = 12,
        height = 6,
