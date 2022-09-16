@@ -194,6 +194,12 @@ article_references_network_node_df <- dplyr::left_join(article_references_networ
 readr::write_csv(article_references_network_node_df,
                  file = file.path("3_output", "bibliographic_coupling_network_articles_with_netw_measures_w_clusters.csv"))
 
+
+WoS_bib_included %>% 
+  select(mybibtex_key,
+         )
+
+
 # run anovas and pairwise t tests
 anova_list <- list()
 anova_res_list <- list()
