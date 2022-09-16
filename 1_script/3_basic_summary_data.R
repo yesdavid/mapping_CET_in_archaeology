@@ -327,7 +327,7 @@ CET_data <-
   mutate(perc = n/Count) %>% 
   mutate(CET = gsub("Cultural_Evolution", "Cultural evolution", CET)) %>% 
   mutate(CET = gsub("Niche_Construction", "Niche construction", CET)) %>% 
-  mutate(CET = gsub("Cultural_Transmission", "Cultural transmission CET", CET)) %>% 
+  mutate(CET = gsub("Cultural_Transmission", "Cultural transmission", CET)) %>% 
   mutate(CET = gsub("Social_learning", "Social learning", CET)) %>% 
   mutate(CET = gsub("Gene_Culture_CoEvol", "Gene-culture coevolution", CET)) %>% 
   mutate(CET = gsub("Evolutionary_Psychology", "Evolutionary psychology", CET)) %>% 
