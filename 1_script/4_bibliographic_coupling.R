@@ -197,7 +197,26 @@ readr::write_csv(article_references_network_node_df,
 
 WoS_bib_included %>% 
   select(mybibtex_key,
-         )
+         AU,
+         TI,
+         SO,
+         DI) %>% 
+  mutate(AU = tolower(AU),
+         TI = tolower(TI),
+         SO = tolower(SO),
+         DI = tolower(DI)) %>% 
+  dplyr::left_join(., article_references_network_node_df %>% 
+                     select(name, color, PY, closeness_centrality),
+                   by = c("mybibtex_key" = "name")) %>% 
+  rename(., Cluster = color,
+         "Year of publication" = PY,
+         "Author(s)" = AU,
+         Title = TI,
+         Outlet = SO,
+         DOI = DI) %>% 
+  arrange(., "Cluster") %>% 
+  readr::write_csv(.,
+                   file = file.path("3_output", "Articles_with_cluster_association_and_closeness_centrality.csv"))
 
 
 # run anovas and pairwise t tests
