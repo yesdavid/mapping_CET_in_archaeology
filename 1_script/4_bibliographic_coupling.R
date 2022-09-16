@@ -203,8 +203,13 @@ for(i in c("eigen_centrality","betweenness_centrality","closeness_centrality","d
   anova_res_list[[i]] <- summary(anova_list[[i]])
   pairwise_t_list[[i]] <- pairwise.t.test(article_references_network_node_df[[i]], 
                                           article_references_network_node_df$color, 
-                                          p.adjust.method = "holm")
+                                          p.adjust.method = "bonferroni")
 }
+
+anova_list$closeness_centrality
+anova_res_list$closeness_centrality
+pairwise_t_list$closeness_centrality
+
 
 # modularity
 modularity <- igraph::modularity(article_references_network,
@@ -366,6 +371,8 @@ dummy_df
 
 readr::write_csv(dummy_df,
                  file = file.path("3_output", "chiSq_residuals_keywords_clusters.csv"))
+
+round(chisq_test_res$stdres, digits = 2)
 
 
 # Contribution in percentage (%)
