@@ -535,7 +535,7 @@ thesaurus_function <- function(joined_ID_DE){
   
   # save categories with keywords as csv
   # readr::write_csv(plyr::ldply(meta_categories, data.frame),
-  #                  file = file.path("2_data", "thesaurus_DE_TI_AB.csv"))
+  #                  file = file.path("2_data", "thesaurus_ID_DE_030322.csv"))
   # readr::write_csv(data.frame(category = unique(names(meta_categories))),
   #                  file = file.path("2_data", "thesaurus_categories.csv"))
   
