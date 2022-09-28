@@ -28,8 +28,7 @@ xtab_cr_paper_paper <-
 xtab_cr_paper_paper[5:10, 1:5]
 
 
-#####################################################################################################################################
-# https://rpubs.com/neloe/ggraph_intro
+
 #####################################################################################################################################
 # Calculate cosine distance between characters
 cosine_sim <- as.dist(xtab_cr_paper_paper %*% t(xtab_cr_paper_paper) / (sqrt(rowSums(xtab_cr_paper_paper^2) %*% t(rowSums(xtab_cr_paper_paper^2)))))
@@ -419,46 +418,46 @@ arrange(most_important_categories, desc(contrib))
 ##############################################################################################################
 # log odds
 ##############################################################################################################
-library(tidylo)
-
-table(genemerge_assoc)
-
-log_odds <- 
-genemerge_assoc %>% 
-  subset(., color %in% c(1:9)) %>% 
-  group_by(color) %>% 
-  count(category, sort = T) %>% 
-  ungroup() %>% 
-  tidylo::bind_log_odds(color, category, n) 
-  
-log_odds %>% 
-  # filter(exam_type == "bastardy") %>%
-  top_n(60, n) %>% 
-  ggplot(aes(n, log_odds_weighted, label = category, color = as.factor(color))) +
-  geom_hline(yintercept = 0, lty = 2,
-             color = "gray50", alpha = 0.5, size = 1.2) +
-  ggrepel::geom_text_repel() +
-  geom_point() +
-  scale_x_log10()
-
-log_odds %>% 
-  group_by(color) %>%
-  top_n(20, log_odds_weighted) %>%
-  ungroup()  %>%
-  mutate(category = tidytext::reorder_within(category, log_odds_weighted, color))  %>%
-  ggplot(aes(category, log_odds_weighted, fill = color)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~color, scales = "free") +
-  coord_flip() +
-  tidytext::scale_x_reordered()  +
-  scale_y_continuous(expand = c(0,0)) +
-  labs(y = "Weighted log odds ratio", x = NULL, title="Most distinctive keyword categories in each cluster")
-
-
-
-
-
-
+# library(tidylo)
+# 
+# table(genemerge_assoc)
+# 
+# log_odds <- 
+# genemerge_assoc %>% 
+#   subset(., color %in% c(1:9)) %>% 
+#   group_by(color) %>% 
+#   count(category, sort = T) %>% 
+#   ungroup() %>% 
+#   tidylo::bind_log_odds(color, category, n) 
+#   
+# log_odds %>% 
+#   # filter(exam_type == "bastardy") %>%
+#   top_n(60, n) %>% 
+#   ggplot(aes(n, log_odds_weighted, label = category, color = as.factor(color))) +
+#   geom_hline(yintercept = 0, lty = 2,
+#              color = "gray50", alpha = 0.5, size = 1.2) +
+#   ggrepel::geom_text_repel() +
+#   geom_point() +
+#   scale_x_log10()
+# 
+# log_odds %>% 
+#   group_by(color) %>%
+#   top_n(20, log_odds_weighted) %>%
+#   ungroup()  %>%
+#   mutate(category = tidytext::reorder_within(category, log_odds_weighted, color))  %>%
+#   ggplot(aes(category, log_odds_weighted, fill = color)) +
+#   geom_col(show.legend = FALSE) +
+#   facet_wrap(~color, scales = "free") +
+#   coord_flip() +
+#   tidytext::scale_x_reordered()  +
+#   scale_y_continuous(expand = c(0,0)) +
+#   labs(y = "Weighted log odds ratio", x = NULL, title="Most distinctive keyword categories in each cluster")
+# 
+# 
+# 
+# 
+# 
+#
 #########################################################################
 # Analysis per time bin
 #########################################################################
