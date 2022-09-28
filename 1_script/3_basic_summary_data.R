@@ -44,13 +44,13 @@ ggplot(data = number_of_pubs_per_year_df,
 
 number_of_pubs_per_year_plot
 
-ggsave(number_of_pubs_per_year_plot,
-       filename = file.path("3_output", "number_of_pubs_per_year_plot.png"),
-       device = "png",
-       width = 4,
-       height = 4,
-       units = "in",
-       bg = "white")
+# ggsave(number_of_pubs_per_year_plot,
+#        filename = file.path("3_output", "number_of_pubs_per_year_plot.png"),
+#        device = "png",
+#        width = 4,
+#        height = 4,
+#        units = "in",
+#        bg = "white")
 
 
 publications_per_year_bar_plot <- 
@@ -89,11 +89,11 @@ hm_items_2021
 
 
 # themes per year
-blubb <- as.data.frame(thesauriert_joined_binary_incidence)
-blubb$mybibtex_key <- rownames(blubb)
+binary_incidence_of_thesaurified_keyw <- as.data.frame(thesauriert_joined_binary_incidence)
+binary_incidence_of_thesaurified_keyw$mybibtex_key <- rownames(binary_incidence_of_thesaurified_keyw)
 
 no_Period <- 
-  blubb$mybibtex_key[which(rowSums(blubb[,c("Palaeolithic", "Neolithic", "Palaeoindian", "Bronze_Age", "African_Stone_Age", "Iron_age", "Mesolithic")]) == 0)]
+  binary_incidence_of_thesaurified_keyw$mybibtex_key[which(rowSums(binary_incidence_of_thesaurified_keyw[,c("Palaeolithic", "Neolithic", "Palaeoindian", "Bronze_Age", "African_Stone_Age", "Iron_age", "Mesolithic")]) == 0)]
 
 no_Period_df <- 
   data.frame(mybibtex_key = no_Period,
@@ -101,7 +101,7 @@ no_Period_df <-
              value = 1)
 
 Period <- 
-  blubb[,c("Palaeolithic", "Neolithic", "Palaeoindian", "Bronze_Age", "African_Stone_Age", "Iron_age", "Mesolithic", 
+  binary_incidence_of_thesaurified_keyw[,c("Palaeolithic", "Neolithic", "Palaeoindian", "Bronze_Age", "African_Stone_Age", "Iron_age", "Mesolithic", 
            "mybibtex_key")] %>% 
   tidyr::pivot_longer(-mybibtex_key, names_to = "Period") %>% 
   na_if(0) %>% 
@@ -122,9 +122,7 @@ Period$Period <- gsub("African_Stone_Age", "African Stone Age", Period$Period)
 Period$Period <- gsub("Iron_age", "Iron Age", Period$Period)
 Period$Period <- gsub("none", "Not specified", Period$Period)
 
-# Period$Period <- factor(Period$Period,
-#                            levels = c("Not specified", "African Stone Age", "Palaeolithic", "Palaeoindian","Mesolithic",
-#                                       "Neolithic", "Bronze Age", "Iron Age"))
+
 period_keyword_occ_per_year_data <-
   Period %>% 
   subset(PY < 2022) %>% 
@@ -180,7 +178,7 @@ ggsave(period_keyword_occ_per_year_plot,
 ####
 
 METHODS_data <- 
-  blubb[,c(which(colnames(blubb) %in% subset(meta_meta_categories, meta_category == "METHODS")$category), which(colnames(blubb) == "mybibtex_key"))] %>% 
+  binary_incidence_of_thesaurified_keyw[,c(which(colnames(binary_incidence_of_thesaurified_keyw) %in% subset(meta_meta_categories, meta_category == "METHODS")$category), which(colnames(binary_incidence_of_thesaurified_keyw) == "mybibtex_key"))] %>% 
     tidyr::pivot_longer(-mybibtex_key, names_to = "METHODS") %>% 
     na_if(0) %>% 
     na.omit %>% 
@@ -240,7 +238,7 @@ ggsave(METHODS_plot,
 
 # TOPIC_plot <- 
 TOPIC_data <- 
-  blubb[,c(which(colnames(blubb) %in% subset(meta_meta_categories, meta_category == "TOPIC")$category), which(colnames(blubb) == "mybibtex_key"))] %>% 
+  binary_incidence_of_thesaurified_keyw[,c(which(colnames(binary_incidence_of_thesaurified_keyw) %in% subset(meta_meta_categories, meta_category == "TOPIC")$category), which(colnames(binary_incidence_of_thesaurified_keyw) == "mybibtex_key"))] %>% 
   tidyr::pivot_longer(-mybibtex_key, names_to = "TOPIC") %>% 
   na_if(0) %>% 
   na.omit %>% 
@@ -312,7 +310,7 @@ ggsave(TOPIC_plot,
 ####
 
 CET_data <- 
-  blubb[,c(which(colnames(blubb) %in% subset(meta_meta_categories, meta_category == "CET")$category), which(colnames(blubb) == "mybibtex_key"))] %>% 
+  binary_incidence_of_thesaurified_keyw[,c(which(colnames(binary_incidence_of_thesaurified_keyw) %in% subset(meta_meta_categories, meta_category == "CET")$category), which(colnames(binary_incidence_of_thesaurified_keyw) == "mybibtex_key"))] %>% 
   tidyr::pivot_longer(-mybibtex_key, names_to = "CET") %>% 
   na_if(0) %>% 
   na.omit %>% 
