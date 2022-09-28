@@ -24,12 +24,18 @@ Cultural evolution; bibliometrics; literature review; archaeology; phylogenetics
 
 ### Overview of contents and how to reproduce:
 
-This repository contains code (`1_script`) data (`2_data`) and  for the paper. After downloading, the results can be reproduced using `systematic_literature_review.Rproj` and the existing folder structure. The required packages and their versions which have been used in this study are listed below and in the `DESCRIPTION`-file. All analyses and visualisations presented in this paper were prepared in R version 4.2.1 (2022-06-23) under Ubuntu 18.04.5 LTS (64-bit).
+This repository contains code (`1_script`) data (`2_data`) and  for the paper. After downloading, the results can be reproduced using `systematic_literature_review.Rproj` and the existing folder structure. All analyses and visualisations presented in this paper were prepared in R version 4.2.1 (2022-06-23) under Ubuntu 18.04.5 LTS (64-bit).
 
-### Required R-packages and their versions:
+### Required dependencies:
 
-base (>= 4.2.1), bib2df (>= 1.1.1), bibliometrix (>= 3.2.1), corrplot (>= 0.92), data.table (>= 1.14.2), dplyr (>= 1.0.8), forcats (>= 0.5.2), ggforce (>= 0.3.3), ggplot2 (>= 3.3.5), ggpubr (>= 0.4.0), ggraph (>= 2.0.5), ggrepel (>= 0.9.1), gridExtra (>= 2.3), igraph (>= 1.2.11), magrittr (>= 2.0.2), plyr (>= 1.8.6), qgraph (>= 1.9), readr (>= 2.1.2), scales (>= 1.1.1), stringr (>= 1.4.0), tibble (>= 3.1.6), tidylo (>= 0.2.0), tidyr (>= 1.2.0), tidytext (>= 0.3.2), tidyverse (>= 1.3.1)
+As the data and code in this repository are complete and self-contained, it can be reproduced with only an R environment (tested for R v4.2.1). The necessary package dependencies are documented in the DESCRIPTION file and can be installed manually or automatically with
 
+```
+if(!require("remotes")) install.packages("remotes")
+remotes::install_github("yesdavid/mapping_CET_in_archaeology", repos = "https://mran.microsoft.com/snapshot/2022-09-28")
+```
+
+This will install the relevant package dependency versions from September 2022, thanks to Microsoft's [CRAN Time Machine](https://mran.microsoft.com/timemachine).
 
 ### Licenses:
 
