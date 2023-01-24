@@ -284,42 +284,42 @@ ggsave(network_centralities_plots,
        bg = "white",
        units = "in")
 
-# DEGREE + CLOSNESS BOXPLOT
-network_centralities_deg_clo_plots <-
-  article_references_network_node_df %>% 
-  group_by(color) %>% 
-  dplyr::select(# eigen_centrality, 
-    # betweenness_centrality, 
-    degree_centrality, 
-    closeness_centrality) %>% 
-  subset(., !(color %in% c(10,11))) %>% 
-  pivot_longer(cols = colnames(.)[2:ncol(.)]) %>% 
-  ggplot() +
-  geom_boxplot(aes(x = color,
-                   y = value,
-                   group = color,
-                   fill = as.factor(color)))+
-  theme_bw(base_size = 18) +
-  theme(legend.position = "none") +
-  xlab("Cluster") +
-  ylab("Scaled centrality") +
-  scale_x_continuous(breaks = c(1:max(article_references_network_node_df$color))) +
-  facet_wrap(~name,
-             # scales = "free_y",
-             ncol = 1,
-             labeller = function(variable,value){
-               return(list("closeness_centrality" = "Closeness centrality",
-                           "degree_centrality" = "Degree centrality")[value])})
-
-network_centralities_deg_clo_plots
-
-ggsave(network_centralities_deg_clo_plots,
-       filename = file.path("3_output", "Supplementary_Fig_S1_bibliographic_coupling_network_DegreeClosenessCentrality_plot.png"),
-       device = "png",
-       width = 7,
-       height = 7,
-       bg = "white",
-       units = "in")
+# # DEGREE + CLOSNESS BOXPLOT
+# network_centralities_deg_clo_plots <-
+#   article_references_network_node_df %>% 
+#   group_by(color) %>% 
+#   dplyr::select(# eigen_centrality, 
+#     # betweenness_centrality, 
+#     degree_centrality, 
+#     closeness_centrality) %>% 
+#   subset(., !(color %in% c(10,11))) %>% 
+#   pivot_longer(cols = colnames(.)[2:ncol(.)]) %>% 
+#   ggplot() +
+#   geom_boxplot(aes(x = color,
+#                    y = value,
+#                    group = color,
+#                    fill = as.factor(color)))+
+#   theme_bw(base_size = 18) +
+#   theme(legend.position = "none") +
+#   xlab("Cluster") +
+#   ylab("Scaled centrality") +
+#   scale_x_continuous(breaks = c(1:max(article_references_network_node_df$color))) +
+#   facet_wrap(~name,
+#              # scales = "free_y",
+#              ncol = 1,
+#              labeller = function(variable,value){
+#                return(list("closeness_centrality" = "Closeness centrality",
+#                            "degree_centrality" = "Degree centrality")[value])})
+# 
+# network_centralities_deg_clo_plots
+# 
+# ggsave(network_centralities_deg_clo_plots,
+#        filename = file.path("3_output", "Supplementary_Fig_S1_bibliographic_coupling_network_DegreeClosenessCentrality_plot.png"),
+#        device = "png",
+#        width = 7,
+#        height = 7,
+#        bg = "white",
+#        units = "in")
 
 
 ##############################################################################################################
