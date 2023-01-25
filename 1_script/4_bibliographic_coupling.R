@@ -37,7 +37,7 @@ cosine_sim <- as.dist(xtab_cr_paper_paper %*% t(xtab_cr_paper_paper) / (sqrt(row
 # Initial look at the network 
 # autograph(as.matrix(cosine_sim))
 
-# Filter weak connections. The amount chosen here is arbitrary. Try different variations. 
+# Filter weak connections. 
 cs_strong <- cosine_sim
 hist(cosine_sim)
 # max(cosine_sim)
