@@ -40,7 +40,7 @@
 1. _Supplementary_Fig_S3_TOPIC_keyword_occ_per_year.png_: Relative appearance of keywords related to thesaurified topics treated in the whole corpus per year. The y-axis is scaled dynamically for each subplot. A comparison of trends can only be done within categories but not between categories.
 1. _Supplementary_Fig_S4_article_references_network_node_df_articles_per_timeframe_plot.png_: Bibliographic coupling network split into each of the five separate time bins. The clusters are coded in the same individual colours as Fig. 5 in the main text and were retrieved from the complete data set (N=629) without time binning. The graph was visualised using the Fruchterman-Reingold algorithm in the ggraph package (Pedersen 2021).
 1. _Supplementary_Fig_S5_density_over_time_plot.png_: Bibliographic coupling network density (ratio of existing edges to all possible edges) for each of the separate time bins. Here, network density is used as a proxy for the conformity/diversity within the network.
-
+1. _Supplementary_Fig_S6_comparison_of_thresholds_: Bibliographic coupling network with different thresholds applied to the underlying cosine similarity matrix. A is the same graph as Figure 5 in the main article with no threshold applied, B, C, and D have a threshold of 0.02, 0.04, and 0.08 respectively, meaning that edges below said values were deleted. The clusters retrieved by the Louvain algorithm are differentiated by colour. For B, C, and D, the article-cluster associations were taken from network A and are therefore identical. The graph was visualised using the Fruchterman-Reingold method in the ggraph package (Pedersen 2021).
 
 
 
