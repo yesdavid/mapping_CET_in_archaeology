@@ -6,8 +6,8 @@ library(dplyr)
 
 WoS_bib_included <- readRDS(file = file.path(".", "2_data", "WoS_run_7", "wos_run_7_prepared.RDS"))
 
-WoS_bib_included_dt <- data.table::as.data.table(subset(WoS_bib_included, PY < 2022))
-
+WoS_bib_included_dt <- data.table::as.data.table(subset(WoS_bib_included, PY < 2022)) # since at the time of the analysis, the year 2022 had only just begun.
+nrow(WoS_bib_included_dt)
 
 thesauriert_joined <- readRDS(file.path("3_output", "wos_run_7_thesauriert_joined_DE_TI_AB.RDS"))
 thesauriert_joined_binary <- readRDS(file.path("3_output", "wos_run_7_thesauriert_joined_binary_DE_TI_AB.RDS"))
@@ -44,14 +44,6 @@ ggplot(data = number_of_pubs_per_year_df,
 
 number_of_pubs_per_year_plot
 
-# ggsave(number_of_pubs_per_year_plot,
-#        filename = file.path("3_output", "number_of_pubs_per_year_plot.png"),
-#        device = "png",
-#        width = 4,
-#        height = 4,
-#        units = "in",
-#        bg = "white")
-
 
 publications_per_year_bar_plot <- 
   ggplot(data = number_of_pubs_per_year_df,
@@ -74,18 +66,13 @@ ggsave(publications_per_year_bar_plot,
 
 
 # how many items do we have?
-hm_items <- nrow(WoS_bib_included_dt) # 674
-hm_items
+hm_items <- nrow(WoS_bib_included_dt) 
+hm_items # 674
 
 # span what time period?
-time_range <- range(as.integer(WoS_bib_included_dt$PY)) # 1981 2022
+time_range <- range(as.integer(WoS_bib_included_dt$PY)) # 1981 2021
 time_range
 
-# how many until 2021
-hm_items_2021 <- WoS_bib_included_dt %>% 
-  dplyr::filter(PY <2022) %>%
-  nrow
-hm_items_2021
 
 
 # themes per year
@@ -213,14 +200,11 @@ METHODS_data_relevance <-
 METHODS_plot <- 
   METHODS_data_relevance %>% 
     ggplot(aes(x = PY, y = perc*100)) +
-    geom_smooth(span = 0.5) +
+    geom_smooth(span = 5) +
     geom_point() +
-    # geom_segment(aes(x = PY, xend = PY, y = 0, yend = perc*100)) +
-    # geom_line() +
     facet_wrap(~forcats::fct_reorder(METHODS, desc(summed_perc), max), ncol = 5,
                scales = "free_y") +
     theme_bw() +
-  # geom_col(aes(fill = METHODS), color = "black", position = "fill") 
     theme(legend.position = "none") +
   xlab("Year of publication") +
   ylab("Relative occurrence of each keyword per year (%)")
@@ -286,9 +270,8 @@ TOPIC_data_relevance %>%
 mutate(TOPIC_factor = forcats::fct_reorder(TOPIC, summed_perc)) %>% 
   
   ggplot(aes(x = PY, y = perc*100)) +
-  geom_smooth(span = 0.5) +
+  geom_smooth(span = 5) +
   geom_point() +
-  # geom_line() +
   facet_wrap(~forcats::fct_reorder(TOPIC, desc(summed_perc), max), ncol = 4,
              scales = "free_y") +
   theme_bw() +
@@ -345,13 +328,10 @@ CET_data_relevance <-
 CET_plot <- 
   CET_data_relevance %>% 
   ggplot(aes(x = PY, y = perc*100)) +
-  geom_smooth(span = 0.5) +
+  geom_smooth(span = 5) +
   geom_point() +
-  # geom_segment(aes(x = PY, xend = PY, y = 0, yend = perc*100)) +
-  # geom_line() +
   facet_wrap(~forcats::fct_reorder(CET, desc(summed_perc), max), ncol = 5) +
   theme_bw() +
-  # geom_col(aes(fill = CET), color = "black", position = "fill") 
   theme(legend.position = "none") +
   xlab("Year of publication") +
   ylab("Relative occurrence of each keyword per year (%)")
@@ -366,67 +346,6 @@ ggsave(CET_plot,
        height = 6,
        units = "in",
        bg = "white")
-
-
-###################################################
-####### refs
-###################################################
-
-cr_details_per_article_tbl <- readRDS(file = file.path("3_output", "wos_run_7_cr_details_per_article_tbl.RDS"))
-
-
-# from https://gist.github.com/benmarwick/5826552
-## create new column that is 'time_window'
-# first make a lookup table to get a time_window for each individual year
-year1 <- 1981:2021
-my_seq <- seq(year1[1], year1[length(year1)], by = 10)
-indx <- findInterval(year1, my_seq)
-ind <- seq(1, length(my_seq), by = 1)
-labl1 <- paste(my_seq[ind], my_seq[ind + 1], sep = "-")
-# labl1[length(labl1)] <- "2018-2022"
-dat1 <- data_frame(year = year1, 
-                   time_window = labl1[indx])
-# merge the time_window column onto my_df
-my_df <- dplyr::left_join(cr_details_per_article_tbl, dat1, by = c("PY"='year'))
-
-articles_per_time_window <- 
-  my_df %>% 
-  filter(PY < 2021) %>% 
-  select(mybibtex_key, time_window) %>% 
-  unique() %>% 
-  group_by(time_window) %>% 
-  count(sort = TRUE,
-        name = "n_papers") %>% 
-  ungroup()
-
-articles_per_decade_plot <- 
-articles_per_time_window %>% 
-  ggplot() +
-  geom_col(aes(x = time_window,
-               y = n_papers)) +
-  theme_bw() +
-  xlab("Decade") +
-  ylab("Number of articles published")
-
-articles_per_decade_plot
-
-ggsave(articles_per_decade_plot,
-       filename = file.path("3_output", "articles_per_decade_plot.png"),
-       device = "png",
-       width = 6,
-       height = 6,
-       units = "in",
-       bg = "white")
-
-most_cited_per_time_window <- 
-  my_df %>% 
-  filter(PY < 2021) %>% 
-  group_by(CR_au1_py, time_window) %>% 
-  count(., sort = TRUE) %>% 
-  ungroup() %>% 
-  group_by(time_window) %>% 
-  top_n(5)
-most_cited_per_time_window
 
 
 
