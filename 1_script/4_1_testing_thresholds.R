@@ -209,7 +209,8 @@ cowplot::plot_grid(article_references_network_louvain +
                    article_references_network_thresh_0.08_plot +
                      theme(plot.title = element_text(hjust = 0.5),
                            legend.position = "top") + 
-                     guides(fill = guide_legend(nrow = 1)))
+                     guides(fill = guide_legend(nrow = 1)),
+                   labels = "AUTO")
 
 ggsave(plot_grid_all_versions,
        filename = file.path("3_output", "Supplementary_Fig_S6_comparison_of_thresholds.png"),
