@@ -316,6 +316,9 @@ WoS_bib_included$AU_1st <- sapply(WoS_bib_included$AU, function(x){strsplit(x, s
 # there is two papers with the bibtex key "mesoudi_cultural_2008" -> change the second one manually
 WoS_bib_included$mybibtex_key[which(WoS_bib_included$mybibtex_key == "mesoudi_cultural_2008")[2]] <- "mesoudi_cultural2_2008"
 
+nrow(WoS_bib_included)
+
+
 saveRDS(WoS_bib_included,
         file = file.path(".", "2_data", "WoS_run_7", "wos_run_7_prepared.RDS"))
 
