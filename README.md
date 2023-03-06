@@ -39,6 +39,6 @@ This will install the relevant package dependency versions from January 2022, th
 
 ### Licenses:
 
-Code: MIT <http://opensource.org/licenses/MIT> year: 2022, copyright holder: David Nicolas Matzig
+Code: MIT <http://opensource.org/licenses/MIT> year: 2023, copyright holder: David Nicolas Matzig
 
 Data: The data has been compiled from Clarivate's Web of Science Core Collection (WoS; www.webofscience.com)
