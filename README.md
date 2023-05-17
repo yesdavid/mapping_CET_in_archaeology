@@ -2,7 +2,7 @@
 
 ### Compendium DOI:
 
-[![DOI](https://zenodo.org/badge/DOI/.svg)](https://doi.org/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7944676.svg)](https://doi.org/10.5281/zenodo.7944676)
 
 The files at the URL above will generate the results as found in the publication. The files hosted at <https://github.com/yesdavid/mapping_CET_in_archaeology> are the development versions and may have changed since the paper was published.
 
