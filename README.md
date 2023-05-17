@@ -12,7 +12,7 @@ The files at the URL above will generate the results as found in the publication
 
 ### Published in:
 
-David N. Matzig [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0001--7349--5401-green.svg)](http://orcid.org/0000-0001-7349-5401), Clemens Schmid [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0003--3448--5715-green.svg)](http://orcid.org/0000-0003-3448-5715), Felix Riede [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0002--4879--7157-green.svg)](http://orcid.org/0000-0002-4879-7157) (2023) Mapping the field of cultural evolutionary theory and methods in archaeology using bibliometric methods, _Humanities & Social Sciences Communications_, [![DOI](https://zenodo.org/badge/DOI/.svg)](https://doi.org/) 
+David N. Matzig, Clemens Schmid, Felix Riede (__accepted__) Mapping the field of cultural evolutionary theory and methods in archaeology using bibliometric methods, _Humanities & Social Sciences Communications_, [![DOI](https://zenodo.org/badge/DOI/.svg)](https://doi.org/) 
 
 ### Abstract:
 
