@@ -12,7 +12,7 @@ The files at the URL above will generate the results as found in the publication
 
 ### Published in:
 
-David N. Matzig, Clemens Schmid, Felix Riede (2023) Mapping the field of cultural evolutionary theory and methods in archaeology using bibliometric methods, _Humanities & Social Sciences Communications_, [![DOI](https://zenodo.org/badge/DOI/10.1057/s41599-023-01767-y.svg)](https://doi.org/10.1057/s41599-023-01767-y) 
+David N. Matzig, Clemens Schmid, Felix Riede (2023) Mapping the field of cultural evolutionary theory and methods in archaeology using bibliometric methods, _Humanities & Social Sciences Communications_  10, Article number: 271, [![DOI](https://zenodo.org/badge/DOI/10.1057/s41599-023-01767-y.svg)](https://doi.org/10.1057/s41599-023-01767-y) 
 
 ### Abstract:
 
